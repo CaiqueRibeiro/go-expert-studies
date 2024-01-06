@@ -2,6 +2,7 @@ package main
 
 // QUANDO USAR PONTEIROS
 // Usar quando quiser que as variáveis seja mutáveis ao longo do código
+// Usado também para economizar memória: ao invés de passar uma cópia de uma variável, passa-se o endereço dela
 
 func soma(a, b int) int {
 	// é feita uma CÓPIA dos parametros, e não mexe no original

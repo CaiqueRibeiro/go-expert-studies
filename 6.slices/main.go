@@ -1,5 +1,6 @@
 package main
-// SLICES
+
+// SLICES - são arrays de tamanhos variados
 
 import "fmt"
 

@@ -14,7 +14,7 @@ func Soma[T int | float64](m map[string]T) T {
 // CONSTRAINTS -> Mesma funcionalidade, mas usando constraint que encapsula os tipos
 type MyNumber int
 type Number interface {
-	~int | ~float64 // colocar ~ permite que tipos personalizados correspondentes funcionam no Generics
+	~int | ~float64 // colocar ~ permite que tipos personalizados correspondentes funcionem no Generics
 }
 
 func Soma2[T Number](m map[string]T) T {
