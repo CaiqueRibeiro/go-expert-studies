@@ -24,7 +24,7 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
-func BuscaCepHandler(w http.ResponseWriter, r *http.Request) {
+func BuscaCepHandler(w http.ResponseWriter, r *http.Request) { // handler === controller
 	if r.URL.Path != "/" {
 		w.WriteHeader(http.StatusNotFound)
 		return

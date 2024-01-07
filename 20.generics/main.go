@@ -13,6 +13,7 @@ func Soma[T int | float64](m map[string]T) T {
 
 // CONSTRAINTS -> Mesma funcionalidade, mas usando constraint que encapsula os tipos
 type MyNumber int
+
 type Number interface {
 	~int | ~float64 // colocar ~ permite que tipos personalizados correspondentes funcionem no Generics
 }
@@ -26,7 +27,7 @@ func Soma2[T Number](m map[string]T) T {
 }
 
 // Comparações fazendo Generics: Preciso usar comparable. Apenas compara a igualdade
-// Para resolver isso é preciso usar constraints do pacote CONSTRAINTS
+// Para comparar maior/menor e outros modelos é preciso usar constraints do pacote CONSTRAINTS
 func Compara[T comparable](a T, b T) bool {
 	if a == b {
 		return true
