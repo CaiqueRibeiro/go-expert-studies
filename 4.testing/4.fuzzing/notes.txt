@@ -1,0 +1,5 @@
+EXECUTAR O FUZZ:
+go test -fuzz=. -run=^# -fuzztime=10s
+
+RODAR ESPECIFICAMENTE OS TESTES COM ERRO:
+go test =run=endereco_do_arquivo_de_fuzz

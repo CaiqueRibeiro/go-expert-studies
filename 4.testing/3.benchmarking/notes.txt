@@ -1,0 +1,14 @@
+RODAR BENCH JUNTO COM TESTES:
+go test -bench=.
+
+RODAR SOMENTE O BENCH:
+go test -bench=. -run=^#
+
+RODAR SOMENTE O BENCH MÚLTIPLAS VEZES PARA VERIFICAR MÉDIA:
+go test -bench=. -run=^# -count=10
+
+RODAR SOMENTE O BENCH EM DETERMINADO TEMPO:
+go test -bench=. -run=^# -benchtime=3s
+
+RODAR SOMENTE O BENCH EXIBINDO ALOCAÇÃO DE MEMORIA:
+go test -bench=. -run=^# -benchmem
