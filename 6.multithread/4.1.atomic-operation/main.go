@@ -7,6 +7,11 @@ import (
 	"time"
 )
 
+/*
+	A biblioteca atomic fornece operações atômicas de baixo nível. Essas operações são úteis para implementar algoritmos de sincronização,
+	permitindo que você evite o uso de mutexes.
+*/
+
 var number int64 = 0
 
 func main() {
@@ -18,5 +23,3 @@ func main() {
 
 	http.ListenAndServe(":8000", nil)
 }
-
-// Para solicitar que o go verifique possiveis RCs, execute o comando: go run -race main.go
