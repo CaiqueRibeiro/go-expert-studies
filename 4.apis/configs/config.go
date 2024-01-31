@@ -1,11 +1,9 @@
-package config
+package configs
 
 import (
 	"github.com/go-chi/jwtauth"
 	"github.com/spf13/viper"
 )
-
-var cfg *conf
 
 // O viper trabalha com annotations, então é possível mapeá-los para os campos do .env
 type conf struct {
@@ -22,6 +20,7 @@ type conf struct {
 }
 
 func LoadConfig(path string) (*conf, error) {
+	var cfg *conf
 	viper.SetConfigName("app_config")
 	viper.SetConfigType("env")
 	viper.AddConfigPath(path)
