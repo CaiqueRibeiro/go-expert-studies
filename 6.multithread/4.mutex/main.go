@@ -17,7 +17,7 @@ var number int64 = 0
 func main() {
 	m := sync.Mutex{}
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		m.Lock()
+		m.Lock() // trava todas as variáveis para acesso compartilhado até que o .Unlock() seja executado
 		number++
 		m.Unlock()
 		time.Sleep(200 * time.Millisecond)

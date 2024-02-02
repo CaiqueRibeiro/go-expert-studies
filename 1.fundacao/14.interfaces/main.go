@@ -23,8 +23,7 @@ type Cliente struct {
 	Address Endereco
 }
 
-// O que estiver entre os parentes antes do nome delimitam a struct a qual pertence o método
-func (c Cliente) Desativar() {
+func (c *Cliente) Desativar() {
 	c.Ativo = false
 	fmt.Printf("O cliente %s foi desativado", c.Nome)
 }

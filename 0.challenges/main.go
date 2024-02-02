@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	sports := make([]string, 5)
+	sports := make([]string, 5) // um slice
 	sports[0] = "ski"
 	sports[1] = "surf"
 	sports[2] = "swim"

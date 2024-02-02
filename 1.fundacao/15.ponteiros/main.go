@@ -13,6 +13,7 @@ func main() {
 	fmt.Println(&ponteiro)                            // aponta para o endereço onde está a variavel "ponteiro"
 	*ponteiro = 20                                    // como o ponteiro está direto no endereço memória, altera o valor
 	fmt.Printf("Variavel a: %d\n", a)                 // irá mostrar 20
+	fmt.Printf("Referente a &a: %d\n", &a)            // irá mostrar 20
 	fmt.Printf("Variavel *ponteiro: %d\n", *ponteiro) // irá mostrar 20
 
 	fmt.Println("\nRESUMINDO: ")

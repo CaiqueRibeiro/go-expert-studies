@@ -7,6 +7,9 @@ func main() {
 
 	go publish(ch)
 	reader(ch)
+	for x := range ch {
+		fmt.Printf("Received %d\n", x)
+	}
 }
 
 func reader(ch chan int) {
