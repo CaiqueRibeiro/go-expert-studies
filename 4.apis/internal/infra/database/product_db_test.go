@@ -66,7 +66,7 @@ func TestFindProductByID(t *testing.T) {
 	assert.NoError(t, err)
 	db.Create(product)
 	productDb := NewProduct(db)
-	p, err := productDb.FindbyID(product.ID.String())
+	p, err := productDb.FindByID(product.ID.String())
 	assert.NoError(t, err)
 	assert.Equal(t, product.Name, p.Name)
 	assert.Equal(t, product.Price, p.Price)
@@ -86,7 +86,7 @@ func TestUpdateProduct(t *testing.T) {
 	product.Price = 20.00
 	err = productDb.Update(product)
 	assert.NoError(t, err)
-	p, err := productDb.FindbyID(product.ID.String())
+	p, err := productDb.FindByID(product.ID.String())
 	assert.NoError(t, err)
 	assert.Equal(t, product.Name, p.Name)
 	assert.Equal(t, product.Price, p.Price)
@@ -104,7 +104,7 @@ func TestDeleteProduct(t *testing.T) {
 	productDb := NewProduct(db)
 	err = productDb.Delete(product.ID.String())
 	assert.NoError(t, err)
-	p, err := productDb.FindbyID(product.ID.String())
+	p, err := productDb.FindByID(product.ID.String())
 	assert.Error(t, err)
 	assert.Nil(t, p)
 }
