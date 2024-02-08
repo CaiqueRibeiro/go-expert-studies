@@ -15,26 +15,26 @@ type conf struct {
 	DBName        string `mapstructure:"DB_NAME"`
 	WebServerPort string `mapstructure:"WEB_SERVER_PORT"`
 	JWTSecret     string `mapstructure:"JWT_SECRET"`
-	JWRExpiresIn  int    `mapstructure:"JWT_EXPIRESIN"`
+	JWTExpiresIn  int    `mapstructure:"JWT_EXPIRESIN"`
 	TokenAuth     *jwtauth.JWTAuth
 }
 
 func LoadConfig(path string) (*conf, error) {
 	var cfg *conf
-	viper.SetConfigName("app_config")
-	viper.SetConfigType("env")
-	viper.AddConfigPath(path)
-	viper.SetConfigFile(".env")
-	viper.AutomaticEnv() // Isso permite que, caso existe uma variável de ambiente definida no sistema, sobrescreva a definida no .env
-	err := viper.ReadInConfig()
+	viper.SetConfigName("app_config") // nome do arquivo de configuração
+	viper.SetConfigType("env")        // tipo do arquivo que será lido
+	viper.AddConfigPath(path)         // caminho do arquivo que será lido
+	viper.SetConfigFile(".env")       // nome do arquivo que será lido
+	viper.AutomaticEnv()              // Isso permite que, caso exista uma variável de ambiente definida no sistema, sobrescreva a definida no .env
+	err := viper.ReadInConfig()       // lê o arquivo .env
 	if err != nil {
 		panic(err)
 	}
-	err = viper.Unmarshal(&cfg)
+	err = viper.Unmarshal(&cfg) // transforma o arquivo .env em um struct
 	if err != nil {
 		panic(err)
 	}
 	// Cria uma instância do TokenAuth para gerar JWT
-	cfg.TokenAuth = jwtauth.New("HS256", []byte(cfg.JWTSecret), nil)
+	cfg.TokenAuth = jwtauth.New("HS256", []byte(cfg.JWTSecret), nil) // Adiciona o token JWT nas configs
 	return cfg, nil
 }

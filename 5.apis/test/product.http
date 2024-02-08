@@ -1,4 +1,5 @@
 POST http://localhost:8000/products HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDc0MTMyMTUsInN1YiI6ImMzMjFjOWZmLWIwOTYtNGExYS05ZDA3LTllMmY3ZDlkODM5MSJ9.9Ks1SqLcdcem_niZg2ZOhrrYMOpXpqQS6PtlaVggBLk
 Content-Type: application/json
 
 {
@@ -9,11 +10,14 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8000/products?page=1&limit=20&order=desc HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDc0MTMyMTUsInN1YiI6ImMzMjFjOWZmLWIwOTYtNGExYS05ZDA3LTllMmY3ZDlkODM5MSJ9.9Ks1SqLcdcem_niZg2ZOhrrYMOpXpqQS6PtlaVggBLk
 
 ###
 
 GET http://localhost:8000/products/1ec03bff-a6f5-493b-b246-964ba00d69c5 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDc0MTMyMTUsInN1YiI6ImMzMjFjOWZmLWIwOTYtNGExYS05ZDA3LTllMmY3ZDlkODM5MSJ9.9Ks1SqLcdcem_niZg2ZOhrrYMOpXpqQS6PtlaVggBLk
 
 ###
 
 DELETE http://localhost:8000/products/e81d5d64-5d68-426f-89dd-4e3ea38ecdbb HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDc0MTMyMTUsInN1YiI6ImMzMjFjOWZmLWIwOTYtNGExYS05ZDA3LTllMmY3ZDlkODM5MSJ9.9Ks1SqLcdcem_niZg2ZOhrrYMOpXpqQS6PtlaVggBLk
