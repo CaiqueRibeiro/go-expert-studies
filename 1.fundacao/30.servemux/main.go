@@ -19,8 +19,8 @@ type ViaCEP struct {
 
 func main() {
 	// as duas linhas a seguir atacham a rota no multiplexer (mux) padrao do Go. A vantagem eh a simplicidade e ele é global
-		// http.HandleFunc("/", BuscaCepHandler)
-		// http.ListenAndServe(":8080", nil)
+	// http.HandleFunc("/", BuscaCepHandler)
+	// http.ListenAndServe(":8080", nil)
 
 	// Criando o proprio multiplexed (mux)
 	// Ele nos obriga a ter um metodo ServeHTTP em uma struct e nos permite flexiblidade muito maior

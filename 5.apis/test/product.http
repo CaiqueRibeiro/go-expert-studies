@@ -1,0 +1,19 @@
+POST http://localhost:8000/products HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Product 2",
+    "price": 100
+}
+
+###
+
+GET http://localhost:8000/products?page=1&limit=20&order=desc HTTP/1.1
+
+###
+
+GET http://localhost:8000/products/1ec03bff-a6f5-493b-b246-964ba00d69c5 HTTP/1.1
+
+###
+
+DELETE http://localhost:8000/products/e81d5d64-5d68-426f-89dd-4e3ea38ecdbb HTTP/1.1
