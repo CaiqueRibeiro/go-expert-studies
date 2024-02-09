@@ -21,6 +21,17 @@ func NewProductHandler(db database.ProductInterface) *ProductHandler {
 	return &ProductHandler{ProductDB: db}
 }
 
+// Create product   godoc
+// @Summary 		Create a product
+// @Description 	Create a product
+// @Tags 			products
+// @Accept  		json
+// @Produce  		json
+// @Param 			request body dto.CreateProductInput true "user credentials"
+// @Success 		201
+// @Failure 		500 {object} Error
+// @Router 			/products [post]
+// @Security 		ApiKeyAuth
 func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	var product dto.CreateProductInput              // usando um DTO para receber os dados do client
 	err := json.NewDecoder(r.Body).Decode(&product) // decodifiando o JSON e já colocando em uma struct
@@ -42,8 +53,20 @@ func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-// Usando o roteador chi para as rotas
+// Find all products	godoc
+// @Summary 			List products
+// @Description 		List products
+// @Tags 				products
+// @Accept  			json
+// @Produce  			json
+// @Param 				page 		query 	string false "page number"
+// @Param 				limit		query 	string false "limit"
+// @Success 			200 		{object} []entity.Product
+// @Failure 			500 		{object} Error
+// @Router 				/products 	[get]
+// @Security 			ApiKeyAuth
 func (h *ProductHandler) FindAllProducts(w http.ResponseWriter, r *http.Request) {
+	// Usando o roteador chi para as rotas
 	page := r.URL.Query().Get("page")  // Pegando o parâmetro da URL
 	pageInt, err := strconv.Atoi(page) // Convertendo para inteiro
 	if err != nil {

@@ -1,0 +1,17 @@
+basePath: /
+host: localhost:8000
+info:
+  contact: {}
+  description: API de Produtos
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+  title: API de Produtos
+  version: "1"
+paths: {}
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
