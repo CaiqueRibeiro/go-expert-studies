@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/CaiqueRibeiro/15.di/product"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -15,9 +14,7 @@ func main() {
 		panic(err)
 	}
 
-	repository := product.NewProductRepository(db)
-
-	usecase := product.NewProductUseCase(repository)
+	usecase := NewUseCase(db)
 
 	product, err := usecase.GetProduct("1")
 
