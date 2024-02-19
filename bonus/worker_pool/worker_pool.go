@@ -52,16 +52,16 @@ func (wp *WorkerPool) worker() {
 
 func (wp *WorkerPool) Run() {
 	// Initialize the tasks channel
-	wp.tasksChan = make(chan Task, len(wp.Tasks))
+	wp.tasksChan = make(chan Task, len(wp.Tasks)) // If 20 tasks, the channel will have a buffer of 20
 
 	for i := 0; i < wp.concurrency; i++ {
-		go wp.worker()
+		go wp.worker() // if concurrency is 5, 5 workers will be created (in other words, 5 threads)
 	}
 
 	// Send tasks to the task channel
-	wp.wg.Add(len(wp.Tasks))
-	for _, task := range wp.Tasks {
-		wp.tasksChan <- task
+	wp.wg.Add(len(wp.Tasks))        // have to wait for all tasks to finish (20)
+	for _, task := range wp.Tasks { // gets tasks one by one and send it to the channel
+		wp.tasksChan <- task // wont be blocked because the buffer is the size of the number of tasks
 	}
 	close(wp.tasksChan)
 
