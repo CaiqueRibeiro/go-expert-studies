@@ -1,0 +1,11 @@
+Utilizações do gRPC:
+- Comunicação entre microsserviços
+- Mobile -> Backend
+
+- Algumas linguages de programação conseguem usar o arquivo gRPC para geração automática de lib
+- Usa Streaming bidirecional usando o HTTP/2
+- Usa Protocol Buffers
+- Permite API "Server Streaming" e "Bi Directional Streaming"
+
+Como gerar o código automaticamente:
+protoc --go_out=. --go-grpc_out=. proto/course_category.proto
