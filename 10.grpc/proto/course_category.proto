@@ -15,10 +15,6 @@ message CreateCategoryRequest {
     string description = 2;
 }
 
-message CreateCategoryResponse {
-    Category category = 1;
-}
-
 message CategoryList {
     repeated Category categories = 1;
 }
@@ -28,7 +24,9 @@ message CategoryGetRequest {
 }
 
 service CategoryService {
-    rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse) {}
+    rpc CreateCategory(CreateCategoryRequest) returns (Category) {}
+    rpc CreateCategoryStream(stream CreateCategoryRequest) returns (CategoryList) {}
+    rpc CreateCategoryStreamBidirectional(stream CreateCategoryRequest) returns (stream Category) {}
     rpc ListCategories(blank) returns (CategoryList) {}
     rpc GetCategory(CategoryGetRequest) returns (Category) {}
 }

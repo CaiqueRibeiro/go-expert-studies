@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"io"
 
 	"github.com/CaiqueRibeiro/grpc/internal/database"
 	"github.com/CaiqueRibeiro/grpc/internal/pb"
@@ -16,7 +17,7 @@ func NewCategoryService(db *database.Category) *CategoryService {
 	return &CategoryService{CategoryDB: db}
 }
 
-func (c *CategoryService) CreateCategory(ctx context.Context, in *pb.CreateCategoryRequest) (*pb.CreateCategoryResponse, error) {
+func (c *CategoryService) CreateCategory(ctx context.Context, in *pb.CreateCategoryRequest) (*pb.Category, error) {
 	category, err := c.CategoryDB.Create(in.Name, in.Description)
 	if err != nil {
 		return nil, err
@@ -28,7 +29,61 @@ func (c *CategoryService) CreateCategory(ctx context.Context, in *pb.CreateCateg
 		Description: category.Description,
 	}
 
-	return &pb.CreateCategoryResponse{Category: categoryResponse}, nil
+	return categoryResponse, nil
+}
+
+// Usando stream unidirecional para criar categorias
+func (c *CategoryService) CreateCategoryStream(stream pb.CategoryService_CreateCategoryStreamServer) error {
+	categories := &pb.CategoryList{}
+
+	for { // loop infinito para receber as categorias por stream
+		category, err := stream.Recv() // recebe os dados do primeiro chunk da stream
+		if err == io.EOF {             // caso a stream tenha acabado, envia a resposta e encerra a função
+			return stream.SendAndClose(categories)
+		}
+		if err != nil {
+			return err
+		}
+
+		categoryResult, err := c.CategoryDB.Create(category.Name, category.Description)
+		if err != nil {
+			return err
+		}
+
+		categories.Categories = append(categories.Categories, &pb.Category{
+			Id:          categoryResult.ID,
+			Name:        categoryResult.Name,
+			Description: categoryResult.Description,
+		})
+	}
+}
+
+// Usando stream bidirecional para criar categorias
+func (c *CategoryService) CreateCategoryStreamBidirectional(stream pb.CategoryService_CreateCategoryStreamBidirectionalServer) error {
+	for { // loop infinito para receber as categorias por stream
+		category, err := stream.Recv() // recebe os dados do primeiro chunk da stream
+		if err == io.EOF {             // caso a stream tenha acabado, envia a resposta e encerra a função
+			return nil
+		}
+		if err != nil {
+			return err
+		}
+
+		categoryResult, err := c.CategoryDB.Create(category.Name, category.Description)
+		if err != nil {
+			return err
+		}
+
+		// envia conforme vai recebendo
+		err = stream.Send(&pb.Category{
+			Id:          categoryResult.ID,
+			Name:        categoryResult.Name,
+			Description: categoryResult.Description,
+		})
+		if err != nil {
+			return err
+		}
+	}
 }
 
 func (c *CategoryService) ListCategories(ctx context.Context, in *pb.Blank) (*pb.CategoryList, error) {
