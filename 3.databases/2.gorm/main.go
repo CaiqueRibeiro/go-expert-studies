@@ -36,5 +36,5 @@ func main() {
 	db.Create(products)
 
 	// soft delete
-	db.Delete(&Product{}) // graças ao gorm.Model, o campo não será deletado, mas sim atualizado o valor de deleted_at
+	db.Delete(&Product{ID: 1}) // graças ao gorm.Model, o campo não será deletado, mas sim atualizado o valor de deleted_at
 }
