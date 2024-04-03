@@ -93,8 +93,8 @@ func (h *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
 	isValid := user.ValidatePassword(u.Password)
 	if !isValid {
 		w.WriteHeader(http.StatusUnauthorized)
-		error := Error{Message: err.Error()}
-		json.NewEncoder(w).Encode(error)
+		err := Error{Message: err.Error()}
+		json.NewEncoder(w).Encode(err)
 		return
 	}
 	_, token, _ := jwt.Encode(map[string]interface{}{
