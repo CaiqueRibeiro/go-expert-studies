@@ -34,7 +34,7 @@ func main() {
 	defer cancel()
 
 	fmt.Println("Shutting down server...")
-	if err := server.Shutdown(ctx); err != nil {
+	if err := server.Shutdown(ctx); err != nil { // if is not able to shutdown gracefully before ctx timeout, gives an error
 		log.Fatalf("Could not gracefully shutdown the server: %v\n", err)
 	}
 	fmt.Println("Server stopped")

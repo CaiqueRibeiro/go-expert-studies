@@ -1,7 +1,7 @@
 package main
 
 /*
-	Buffer em channels são os "slots" destes. O padrão de um channel é buffer 1,
+	Buffer em channels são os "slots", e o padrão de um channel é buffer 1,
 	ou seja, apenas 1 valor pode ser atribuído ao channel de uma vez. Ao inserir mais
 	de um buffer é possível adicionar múltiplos valores que irão ser consumidos em FIFO.
 	Caso não possua uma concorrência suficiente para consumir todos os valores rapidamente,
