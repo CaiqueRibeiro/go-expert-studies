@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/CaiqueRibeiro/go-expert-studies/queues/src/queue"
+	"github.com/CaiqueRibeiro/go-expert-studies/queues/src/queue_from_scratch"
 )
 
 func main() {
@@ -16,4 +17,15 @@ func main() {
 		fmt.Println(err)
 	}
 	fmt.Println(valueFromQueue)
+
+	// Queue from scratch using no library
+	qfs := queue_from_scratch.NewQueue[string]()
+	qfs.Enqueue("first")
+	qfs.Enqueue("second")
+	qfs.Enqueue("third")
+	vfq, err := qfs.Dequeue()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(vfq)
 }
