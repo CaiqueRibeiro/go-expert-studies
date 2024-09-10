@@ -8,7 +8,7 @@ import (
 type Product struct {
 	ID         int     `gorm:"primaryKey"`
 	Name       string  `json:"name"`
-	Price      float64 `json:"price"`ß
+	Price      float64 `json:"price"`
 	gorm.Model         // permite que o GORM adicione campos CreatedAt, UpdatedAt e DeletedAt automaticamente
 }
 
