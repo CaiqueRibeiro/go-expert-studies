@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>internal: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">cleutonsampaio.com/golangdemo1/internal/formaspagamento.go (100.0%)</option>
+				
+				<option value="file1">cleutonsampaio.com/golangdemo1/internal/services.go (0.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package internal
+
+import (
+        "sort"
+        "time"
+)
+
+type FormasPagamentoService struct {
+        pedidoService    PedidoService
+        pagamentoService PagamentoService
+        parametros       Parametros
+}
+
+func NewFormasPagamentoService(pedidoService PedidoService, pagamentoService PagamentoService, parametros Parametros) *FormasPagamentoService <span class="cov8" title="1">{
+        return &amp;FormasPagamentoService{pedidoService, pagamentoService, parametros}
+}</span>
+
+func (fps *FormasPagamentoService) VerificarFormasPagamento(cliente Cliente, valorEntrada float64, valorPedido float64) []string <span class="cov8" title="1">{
+        if valorEntrada &lt; 0 </span><span class="cov8" title="1">{
+                panic("verificarFormasPagamento: Valor entrada inválido")</span>
+        }
+        <span class="cov8" title="1">if valorPedido &lt; 0 </span><span class="cov8" title="1">{
+                panic("verificarFormasPagamento: Valor do pedido inválido")</span>
+        }
+        <span class="cov8" title="1">if valorEntrada &gt; valorPedido </span><span class="cov8" title="1">{
+                panic("verificarFormasPagamento: Valor entrada maior que o valor do pedido")</span>
+        }
+
+        <span class="cov8" title="1">formasPagamento := []string{}
+
+        pedidosCliente := fps.pedidoService.GetPedidos(cliente.Id)
+        sort.SliceStable(pedidosCliente, func(i, j int) bool </span><span class="cov8" title="1">{
+                return pedidosCliente[i].Numero &lt; pedidosCliente[j].Numero
+        }</span>)
+        <span class="cov8" title="1">pagamentos := fps.pagamentoService.GetPagamentosCliente(cliente.Id)
+
+        sort.SliceStable(pagamentos, func(i, j int) bool </span><span class="cov8" title="1">{
+                return pagamentos[i].Numero &lt; pagamentos[j].Numero
+        }</span>)
+
+        <span class="cov8" title="1">valorUltimoPagamento := fps.getUltimoPagamento(pagamentos)
+        valorUltimoPedido := fps.getValorUltimoPedido(pedidosCliente)
+        tempoCliente := fps.getTempoCliente(cliente.DataCadastro)
+        valorEntradaMaiorIgual20Porcento := valorEntrada &gt;= valorPedido*0.2
+
+        formasPagamento = append(formasPagamento, "Pagamento à vista")
+
+        if tempoCliente &gt;= 6 &amp;&amp; cliente.SituacaoCredito != "ruim" </span><span class="cov8" title="1">{
+                if cliente.SituacaoCredito == "boa" </span><span class="cov8" title="1">{
+                        formasPagamento = append(formasPagamento, "Pagamento em 2 vezes com juros")
+                        if tempoCliente &gt;= 12 </span><span class="cov8" title="1">{
+                                formasPagamento = append(formasPagamento, "Pagamento em 3 vezes sem juros")
+                                if valorUltimoPedido &gt;= fps.parametros.ValorLimiteUltimoPedido &amp;&amp;
+                                        valorUltimoPagamento &gt;= fps.parametros.ValorLimiteUltimoPagamento </span><span class="cov8" title="1">{
+                                        formasPagamento = append(formasPagamento, "Pagamento em 6 vezes sem juros")
+                                }</span>
+                        }
+                } else<span class="cov8" title="1"> if valorEntradaMaiorIgual20Porcento </span><span class="cov8" title="1">{
+                        formasPagamento = append(formasPagamento, "Pagamento em 2 vezes com juros")
+                }</span>
+        }
+
+        <span class="cov8" title="1">return formasPagamento</span>
+}
+
+func (fps *FormasPagamentoService) getValorUltimoPedido(pedidosCliente []Pedido) float64 <span class="cov8" title="1">{
+        valor := 0.0
+        if len(pedidosCliente) &gt; 0 </span><span class="cov8" title="1">{
+                valor = pedidosCliente[len(pedidosCliente)-1].Valor
+        }</span>
+        <span class="cov8" title="1">return valor</span>
+}
+
+func (fps *FormasPagamentoService) getTempoCliente(dataCadastro time.Time) int <span class="cov8" title="1">{
+        dataFinal := time.Now()
+        anos := int(dataFinal.Year()) - int(dataCadastro.Year())
+        mesesCalculo := 12
+        if dataFinal.Month() == dataCadastro.Month() &amp;&amp;
+                dataFinal.Day() &lt; dataCadastro.Day() </span><span class="cov8" title="1">{
+                mesesCalculo -= 1
+        }</span>
+        <span class="cov8" title="1">diferenca := int((int(dataFinal.Month()) - int(dataCadastro.Month())) + mesesCalculo*anos)
+        return diferenca</span>
+}
+
+func (fps *FormasPagamentoService) getUltimoPagamento(pagamentos []Pagamento) float64 <span class="cov8" title="1">{
+        valor := 0.0
+        for i := len(pagamentos) - 1; i &gt;= 0; i-- </span><span class="cov8" title="1">{
+                if pagamentos[i].Liquidado </span><span class="cov8" title="1">{
+                        valor = pagamentos[i].Valor
+                        break</span>
+                }
+        }
+        <span class="cov8" title="1">return valor</span>
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package internal
+
+import "time"
+
+type Parametros struct {
+        ValorLimiteUltimoPedido    float64
+        ValorLimiteUltimoPagamento float64
+}
+
+type Cliente struct {
+        Id              int
+        DataCadastro    time.Time
+        SituacaoCredito string
+}
+
+type Pedido struct {
+        Numero int
+        Valor  float64
+}
+
+type Pagamento struct {
+        Numero    int
+        Valor     float64
+        Liquidado bool
+}
+
+type PedidoServiceImpl struct{}
+
+func (ps *PedidoServiceImpl) getPedidos(clienteID int) []Pedido <span class="cov0" title="0">{
+        // Implementação fictícia de obtenção de pedidos
+        return []Pedido{}
+}</span>
+
+type PagamentoServiceImpl struct{}
+
+func (ps *PagamentoServiceImpl) getPagamentosCliente(clienteID int) []Pagamento <span class="cov0" title="0">{
+        // Implementação fictícia de obtenção de pagamentos de um cliente
+        return []Pagamento{}
+}</span>
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
